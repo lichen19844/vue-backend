@@ -1,0 +1,57 @@
+<!------------------------------------------------------------
+  文件名:   ch4-4.html
+  第三章:   class 和 style 绑定的高级用法
+  开发平台: VSCode 1.39.1
+  Vue 实战小慕读书中后台 By Sam
+------------------------------------------------------------->
+<html>
+  <head>
+    <title>class 和 style 绑定的高级用法</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <!-- 绑定class，对应字符串 -->
+      <div :class="'active normal'">数组绑定多个class，这种形式不如数组友好(数据结构不友好)</div>
+      <div :class="'active'+'normal'">数组绑定多个class，这种形式不如数组友好(数据结构不友好)</div>
+      <div :class="['active', 'normal']">数组绑定多个class</div>
+      <div :class="(isActive? 'active': '') + 'normal'">数组包含三元表达式绑定class(数据结构不友好)</div>
+      <div :class="[{active: isActive}, 'normal']">数组包含对象绑定class</div>
+      <div :class="[showWarning(), 'normal']">数组包含 方法 绑定class</div>
+      <!-- 绑定style，对应对象 -->
+      <div :style="[warning, bold]">数组绑定多个style</div>
+      <div :style="[showWarning(), bold]">数组包含方法绑定多个style</div>
+      <div :style="[warning, mix()]">数组包含方法绑定多个style</div>
+      <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">style多重值</div>
+    </div>
+    <script>
+      new Vue({
+        el: '#root',
+        data() {
+          return {
+            isActive: false,
+            warning: {
+              color: 'orange'
+            },
+            bold: {
+              fontWeight: 'bold'
+            }
+          }
+        },
+        methods: {
+          showWarning() {
+            // return 'warning'  // 如果绑定的是class而不是style，则只会返回warning字符串
+            // return this.warning // 如果绑定的是class而不是style，则会返回warning对象里的color属性名
+            return {...this.warning} // 如果绑定的是class而不是style，则会返回warning对象里的color属性名
+          },
+          mix() {
+            return {
+              ...this.bold,
+              fontSize: 20
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="https://npmcdn.com/vue/dist/vue.js"></script>
+</head>
+<body>
+ <div id="app">
+ </div>
+<script>
+ var MyComponent = Vue.extend({
+   template: '<div>Hello World</div>'
+ })
+ var myAppendTo = Vue.extend({
+   template:'<p>appendTo</p>'
+ })
+ var myBefore = Vue.extend({
+   template:'<p>before</p>'
+ })
+ var myAfter = Vue.extend({
+   template:'<p>after</p>'
+ })
+// 创建并挂载到 #app (会替换 #app)
+ new MyComponent().$mount('#app')
+// 手动挂载
+ new myAppendTo().$mount().$appendTo('#app');//appendTo
+ new myBefore().$mount().$before('#app');//before
+ new myAfter().$mount().$after('#app');//after
+</script>
+<!--说明-->
+<!--1.对比jquery的dom节点的插入方式，vue.js的插值需要使用先new创建一个实例然后通过$mount()-->
+<!--2.手动挂载到dom节点中，然后使用$appendTo/$before/$after等方法进行插值。-->
+<!--3.这种操作dom的思想其实并不是vue提倡的方式，而vue提倡的方式是通过操作数据来完成你想要的结果-->
+<!--4.vue的思想是这个dom已经存在，通过判断可以控制它显示隐藏-->
+<!--5.所以使用vue的时候，要试着转变一下使用jquery的时候那种思想就像api提供的这种方法 (v-if)-->
+<ul>
+ <li v-if="ok">显示</li>
+ <li v-else>隐藏</li>
+</ul>
+<!--6.也可以通过(v-show)来控制显示隐藏-->
+<ul>
+  <li v-show="ok">显示</li>
+</ul>
+<!--6.(v-if和v-show的区别)-->
+<!--在切换 v-if 块时，Vue.js 有一个局部编译/卸载过程，因为 v-if 之中的模板也可能包括数据绑定或子组件。-->
+<!--v-if 是真实的条件渲染，因为它会确保条件块在切换当中合适地销毁与重建条件块内的事件监听器和子组件。-->
+<!--v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——在条件第一次变为真时才开始局部编译（编译会被缓存起来）。-->
+<!--相比之下，v-show 简单得多——元素始终被编译并保留，只是简单地基于 CSS 切换。-->
+<!--一般来说，v-if 有更高的切换消耗而 v-show 有更高的初始渲染消耗。因此，如果需要频繁切换 v-show 较好，-->
+<!--如果在运行时条件不大可能改变 v-if 较好。-->
+</body>
+</html>

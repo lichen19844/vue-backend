@@ -1,0 +1,61 @@
+<!------------------------------------------------------------
+  文件名:   ch4-5.html
+  第三章:   Vue.observable
+  开发平台: VSCode 1.39.1
+  Vue 实战小慕读书中后台 By Sam
+------------------------------------------------------------->
+<html>
+  <head>
+    <title>Vue.observable</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div>响应属性</div><br />
+    <div id="root">
+      {{messagesss}}
+      <button @click="change">Change</button>
+    </div>
+    <script>
+
+      // new Vue({
+      //   el: '#root',
+      //   data () {
+      //     return {
+      //       message: 'Vue 2.6'
+      //     }
+      //   },
+      //   methods: {
+      //     change() {
+      //       this.message = 'Vue 3.0'
+      //     }
+      //   }
+      // })
+
+      const state = Vue.observable({ message: 'Vue 2.6' })
+      const mutation = {
+        setMessage(value) {
+          state.message = value
+        }
+      }
+      new Vue({
+        el: '#root',
+        // data这里定义的message无效
+        // data () {
+        //   return {
+        //     message: 'Vue 2.6'
+        //   }
+        // },
+        computed: {
+          messagesss() {
+            return state.message
+          }
+        },
+        methods: {
+          change() {
+            mutation.setMessage('Vue 3.0')
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
